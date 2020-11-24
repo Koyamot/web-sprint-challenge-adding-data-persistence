@@ -3,7 +3,8 @@ const db = require('../../data/dbConfig.js')
 
 module.exports = {
     find,
-    findById
+    findById,
+    addProject
 
 }
 
@@ -19,6 +20,17 @@ async function getResources(id) {
     }
 }
 
+async function getTasks(id) {
+    try {
+        return await db('project')
+            .join('task', 'task.project_id', 'project.id')
+            .where('task.project_id', id)
+            .select('task.name', 'task.description', 'task.completed')
+    } catch (err) {
+        
+    }
+}
+
 async function find() {
     try {
         return await db('project')
@@ -29,10 +41,20 @@ async function find() {
 
 async function findById(id) {
     try {
-        const [projects] = await db('project').where({ id }).select('name', 'description')
+        const [projects] = await db('project').where({ id }).select('name', 'description', 'completed')
         const resources = await getResources(id)
-        return {...projects, resources}
+        const tasks = await getTasks(id)
+        return {...projects, resources, tasks}
     } catch (err) {
         throw err
+    }
+}
+
+async function addProject(project) {
+    try {
+        const newProject = await db('project').insert(project)
+        return newProject;
+    } catch (err) {
+        throw err;
     }
 }

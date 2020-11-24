@@ -30,4 +30,16 @@ router.get('/:id', (req, res) => {
         })
 })
 
+router.post('/', (req, res) => {
+    const projectData = req.body;
+  
+    Project.addProject(projectData)
+      .then(project => {
+        res.status(201).json(project);
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Failed to create new project' });
+      });
+  });
+
 module.exports = router;

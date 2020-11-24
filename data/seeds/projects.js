@@ -6,8 +6,8 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('project').insert([
         {id: 1, name: 'ProjectA', description:'A project by any other name, is just a project.', completed: 0},
-        {id: 2, name: 'ProjectA', description:'A project by any other name, is just a project.', completed: 0},
-        {id: 3, name: 'ProjectA', description:'A project by any other name, is just a project.', completed: 0}
+        {id: 2, name: 'ProjectB', description:'A project by any other name, is just a project.', completed: 0},
+        {id: 3, name: 'ProjectC', description:'A project by any other name, is just a project.', completed: 0}
       ]);
     });
 };
