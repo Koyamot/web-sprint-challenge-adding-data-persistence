@@ -32,8 +32,8 @@ async function find() {
 async function findById(id) {
     try {
         const [resources] = await db('resource').where({ id }).select('name', 'description')
-        const proj = await getProjects(id)
-        return {...resources, proj}
+        const projectsAttached = await getProjects(id)
+        return {...resources, projectsAttached}
     } catch (err) {
         throw err
     }
