@@ -11,9 +11,9 @@ module.exports = {
 
 async function getProjects(id) {
     try {
-        return await db('project')
-            .join('task', 'task.project_id', 'project.id')
-            .where('task.project_id', id)
+        return await db('task')
+            .join('project', 'task.project_id', 'project.id')
+            .where('task.id', id)
             .select('project.name', 'project.description')
     } catch (err) {
         
@@ -30,9 +30,9 @@ async function find() {
 
 async function findById(id) {
     try {
-        const task = await db('task').where('task.project_id', id).select('name', 'description', 'notes', 'completed')
-        const [proj] = await getProjects(id)
-        return {...proj, task}
+        const [task] = await db('task').where('task.id', id).select('name', 'description', 'notes', 'completed')
+        const proj = await getProjects(id)
+        return {...task, proj}
     } catch (err) {
         throw err
     }
