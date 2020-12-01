@@ -1,10 +1,12 @@
 // build your server here
   
 const express = require('express');
+const cors = require("cors");
 
 const server = express();
 
 server.use(express.json())
+server.use(cors());
 
 const projectRouter = require("../api/project/router.js")
 const taskRouter = require("../api/task/router.js")
