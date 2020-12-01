@@ -8,6 +8,19 @@ module.exports = {
 
 }
 
+async function getProjects(id) {
+    try {
+        return await db('resource')
+            .join('project_resources', 'project_resources.resource_id', 'resource.id')
+            .join('project', 'project_resources.project_id', 'project.id')
+            .where('resource.id', id)
+            .select('project.name', 'project.description')
+    } catch (err) {
+        throw err;
+    }
+}
+
+
 async function find() {
     try {
        return await db('resource') 
@@ -19,8 +32,8 @@ async function find() {
 async function findById(id) {
     try {
         const [resources] = await db('resource').where({ id }).select('name', 'description')
-        // const resources = await getResources(id)
-        return resources;
+        const proj = await getProjects(id)
+        return {...resources, proj}
     } catch (err) {
         throw err
     }
